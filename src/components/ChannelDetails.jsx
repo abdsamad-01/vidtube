@@ -6,41 +6,41 @@ import { Videos, ChannelCard } from "./";
 import { fetchFromApi } from "../utils/fetchFromApi";
 
 const ChannelDetail = () => {
-  const [channelDetail, setChannelDetail] = useState();
-  const [videos, setVideos] = useState(null);
+    const [channelDetail, setChannelDetail] = useState();
+    const [videos, setVideos] = useState([]);
 
-  const { id } = useParams();
+    const { id } = useParams();
 
-  useEffect(() => {
-    const fetchResults = async () => {
-      const data = await fetchFromApi(`channels?part=snippet&id=${id}`);
+    useEffect(() => {
+        const fetchResults = async () => {
+            const data = await fetchFromApi(`channels?part=snippet&id=${id}`);
 
-      setChannelDetail(data?.items[0]);
+            setChannelDetail(data?.items[0]);
 
-      const videosData = await fetchFromApi(`search?channelId=${id}&part=snippet&order=date`);
+            const videosData = await fetchFromApi(`search?channelId=${id}&part=snippet&order=date`);
 
-      setVideos(videosData?.items);
-    };
+            setVideos(videosData?.items);
+        };
 
-    fetchResults();
-  }, [id]);
+        fetchResults();
+    }, [id]);
 
-  return (
-    <Box minHeight="95vh">
-      <Box>
-        <div style={{
-          height:'300px',
-          background: 'linear-gradient(90deg, rgba(0,238,247,1) 0%, rgba(206,3,184,1) 100%, rgba(0,212,255,1) 100%)',
-          zIndex: 10,
-        }} />
-        <ChannelCard channelDetail={channelDetail} marginTop="-97px" />
-      </Box>
-      <Box p={2} display="flex">
-        <Box sx={{ mr: { sm: '100px' } }}/>
-            <Videos videos={videos} />
+    return (
+        <Box minHeight="95vh">
+            <Box>
+                <div style={{
+                    height: '275px',
+                    background: 'linear-gradient(90deg, rgba(255,184,0,1) 0%, rgba(229,11,217,0.9946901123730743) 100%)',
+                    zIndex: 10,
+                }} />
+                <ChannelCard channelDetail={channelDetail} marginTop="-97px" />
+            </Box>
+            <Box p={2} display="flex">
+                <Box sx={{ mr: { sm: '100px' } }} />
+                <Videos videos={videos} />
+            </Box>
         </Box>
-    </Box>
-  );
+    );
 };
 
 export default ChannelDetail;
